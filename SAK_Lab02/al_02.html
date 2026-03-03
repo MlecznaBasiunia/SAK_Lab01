@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>anim_lab_02</title>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #24292f;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        .markdown-body {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+        }
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+        }
+        .markdown-body h1,
+        .markdown-body h2,
+        .markdown-body h3,
+        .markdown-body h4,
+        .markdown-body h5,
+        .markdown-body h6 {
+            margin-top: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            line-height: 1.25;
+        }
+        .markdown-body h1 {
+            font-size: 2em;
+            border-bottom: 1px solid #d0d7de;
+            padding-bottom: 0.3em;
+        }
+        .markdown-body h2 {
+            font-size: 1.5em;
+            border-bottom: 1px solid #d0d7de;
+            padding-bottom: 0.3em;
+        }
+        .markdown-body h3 { font-size: 1.25em; }
+        .markdown-body h4 { font-size: 1em; }
+        .markdown-body h5 { font-size: 0.875em; }
+        .markdown-body h6 {
+            font-size: 0.85em;
+            color: #656d76;
+        }
+        .markdown-body p {
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+        .markdown-body a {
+            color: #0969da;
+            text-decoration: none;
+        }
+        .markdown-body a:hover {
+            text-decoration: underline;
+        }
+        .markdown-body ul,
+        .markdown-body ol {
+            margin-top: 0;
+            margin-bottom: 16px;
+            padding-left: 2em;
+        }
+        .markdown-body li { margin-top: 0.25em; }
+        .markdown-body li + li { margin-top: 0.25em; }
+        .markdown-body code {
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 85%;
+            background-color: rgba(175,184,193,0.2);
+            border-radius: 6px;
+            font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+        }
+        .markdown-body pre {
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: #f6f8fa;
+            border-radius: 6px;
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+        .markdown-body pre code {
+            display: inline;
+            padding: 0;
+            margin: 0;
+            overflow: visible;
+            line-height: inherit;
+            background-color: transparent;
+            border: 0;
+        }
+        .markdown-body blockquote {
+            margin: 0 0 16px 0;
+            padding: 0 1em;
+            color: #656d76;
+            border-left: 0.25em solid #d0d7de;
+        }
+        .markdown-body table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            margin-top: 0;
+            margin-bottom: 16px;
+            width: 100%;
+            overflow: auto;
+        }
+        .markdown-body table th,
+        .markdown-body table td {
+            padding: 6px 13px;
+            border: 1px solid #d0d7de;
+        }
+        .markdown-body table th {
+            font-weight: 600;
+            background-color: #f6f8fa;
+        }
+        .markdown-body table tr {
+            background-color: #ffffff;
+            border-top: 1px solid #d0d7de;
+        }
+        .markdown-body table tr:nth-child(2n) {
+            background-color: #f6f8fa;
+        }
+        .markdown-body img {
+            max-width: 100%;
+            box-sizing: content-box;
+            background-color: #ffffff;
+        }
+        .markdown-body hr {
+            height: 0.25em;
+            padding: 0;
+            margin: 24px 0;
+            background-color: #d0d7de;
+            border: 0;
+        }
+        .markdown-body strong { font-weight: 600; }
+        .markdown-body em { font-style: italic; }
+    </style>
+    
+</head>
+<body>
+    <div class="markdown-body">
+<h1>Laboratorium 02: JS Canvas – Macierze i Czas (Zegar Analogowy)</h1>
+<p><strong>Kontekst:</strong> Systemy Animacji Komputerowej</p>
+<p><strong>Czas trwania:</strong> 2h 15min</p>
+<p><strong>Technologia:</strong> HTML5 Canvas + JavaScript (ES6 Classes)</p>
+<hr>
+<h2>1. Cel i Temat Zajęć</h2>
+<p>Przejście od obliczania pozycji "na piechotę" (znanego z Lab 01 <code>x = sin(a)</code>) do profesjonalnego podejścia opartego na <strong>transformacjach układu współrzędnych</strong>. Student ma zrozumieć, że łatwiej jest obrócić cały świat, niż obliczać nową pozycję każdego wierzchołka obiektu.</p>
+<ul>
+<li><strong>Cel dydaktyczny:</strong> Zrozumienie stosu macierzy (<code>save</code>/<code>restore</code>), lokalnych układów współrzędnych oraz pracy z pętlą czasu w JavaScript (<code>requestAnimationFrame</code>).</li>
+<li><strong>Wymagania wstępne:</strong> Podstawowa znajomość składni JavaScript (klasy, zmienne).</li>
+</ul>
+<h2>2. Część Wstępna (ok. 15 min) - Dyskusja</h2>
+<ol>
+<li><strong>Lokalne vs Globalne (Metoda z Lab 01 vs Lab 02):</strong></li>
+<ul>
+<li>W Lab 01 liczyliśmy pozycję Ziemi używając trygonometrii.</li>
+<li>W Lab 02 (Zegar) chcemy narysować wskazówkę zawsze pionowo w górę (0, -r), ale obrócić cały "stół", na którym rysujemy. Dlaczego to drugie podejście jest łatwiejsze przy skomplikowanych obiektach (np. rysowaniu samochodu)?</li>
+</ul>
+</ol>
+<ol>
+<li><strong>Abstrakcja i OOP:</strong></li>
+<ul>
+<li>Jak zaprojektować klasę <code>Clock</code>, aby była niezależna? Czy Zegar powinien wiedzieć o istnieniu HTML Canvasa, czy tylko otrzymywać kontekst do rysowania?</li>
+<li>Dlaczego warto wydzielić klasę/strukturę <code>Hand</code> (Wskazówka), zamiast trzymać wszystko w jednej pętli?</li>
+</ul>
+</ol>
+<h2>3. Materiały Źródłowe (Reference)</h2>
+<ul>
+<li><strong>MDN Canvas API:</strong> <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Transformations">MDN: Transformations</a> (en) – Dokumentacja metod <code>translate</code>, <code>rotate</code>, <code>save</code>, <code>restore</code>.</li>
+<li><strong>JS Date Object:</strong> <a href="https://developer.mozilla.org/pl/docs/Web/JavaScript/Reference/Global_Objects/Date">MDN: Date</a> (en) – Metody pobierania czasu (<code>getHours</code>, <code>getMinutes</code>, <code>getSeconds</code>).</li>
+<li><strong>Radiany:</strong> <a href="https://pl.wikipedia.org/wiki/Radian">Wikipedia: Radian</a> – Wzór na zamianę stopni na radiany (Canvas operuje na radianach: <code>rad = deg * PI / 180</code>).</li>
+</ul>
+<h2>4. Zadania Laboratoryjne (Core)</h2>
+<p>Celem jest stworzenie w pełni obiektowego, animowanego zegara analogowego.</p>
+<h3>Zadanie: Klasa <code>Clock</code> i <code>Hand</code></h3>
+<p>Zaimplementuj hierarchię klas, która wyrenderuje aktualny czas systemowy.</p>
+<ul>
+<li><strong>Wymagania Architektoniczne ("Hard OOP"):</strong></li>
+<li>Kod musi być oparty na klasach ES6.</li>
+<li>Logika rysowania pojedynczej wskazówki powinna być odseparowana (np. metoda <code>draw()</code> w klasie <code>Hand</code> lub sparametryzowana metoda <code>drawHand</code> w klasie <code>Clock</code>). Nie duplikuj kodu dla 3 wskazówek!</li>
+<li><strong>Logika Transformacji:</strong></li>
+<li>Środek zegara musi znajdować się na środku Canvasa <code>(width/2, height/2)</code>.</li>
+<li>Wskazówki rysujemy zawsze w pozycji "na godzinie 12" (pionowo), a ich pozycja wynika z <strong>obrotu układu współrzędnych</strong> (<code>rotate</code>).</li>
+<li>Kluczowe jest użycie <code>ctx.save()</code> przed transformacją dla danej wskazówki i <code>ctx.restore()</code> po jej narysowaniu, aby obrót sekundnika nie wpływał na minutnik.</li>
+<li><strong>Interakcja (Pauza):</strong></li>
+<li>Naciśnięcie <strong>Spacji</strong> zatrzymuje wizualnie zegar (zamraża wskazówki).</li>
+<li>Ponowne naciśnięcie wznawia działanie w trybie "Systemowym" – wskazówki przeskakują do aktualnej godziny (nie kontynuują od momentu zatrzymania, po prostu wznawiamy renderowanie).</li>
+</ul>
+<h3>Wskazówki implementacyjne:</h3>
+<ol>
+<li>Pamiętaj, że Canvas ma oś Y skierowaną w dół, a kąt 0 stopni jest na godzinie 3 (oś X). Wymaga to korekty kąta o -90 stopni (-PI/2) lub wstępnego obrotu kontekstu.</li>
+<li>Płynność sekundnika: Zamiast skakać co sekundę, dodaj ułamek z milisekund: <code>seconds + milliseconds / 1000</code>.</li>
+</ol>
+<h2>5. System Oceniania i Weryfikacji (0-5 pkt)</h2>
+<ul>
+<li><strong>Sposób oddania:</strong></li>
+<li>Pliki <code>index.html</code> + <code>script.js</code> (lub folder <code>js/</code>) w repozytorium.</li>
+<li>Plik <code>README.md</code> zawierający <strong>zrzut ekranu</strong> działającego zegara (Markdown: <code><img src="sciezka<em>do</em>pliku.png" alt="opis"></code>).</li>
+<li><strong>Kryteria:</strong></li>
+<li><strong>3.0 (Dostateczny):</strong> Zegar działa, pokazuje dobry czas. Wskazówki poruszają się.</li>
+<li><strong>4.0 (Dobry):</strong> Poprawne użycie <code>save/restore</code> (brak resetowania całej macierzy przez <code>setTransform</code>). Zastosowanie Klas (OOP).</li>
+<li><strong>5.0 (Bardzo dobry):</strong> Działa pauza (Spacja). Kod jest czysty, wskazówki mają różne grubości/kolory. Zegar posiada tarczę (godziny/minuty namalowane lub kreseczki).</li>
+</ul>
+<h2>6. Dla chętnych (*)</h2>
+<ol>
+<li><strong>GitHub Pages:</strong> Skonfiguruj repozytorium tak, aby projekt był dostępny publicznie przez GitHub Pages (dodaj link w opisie repozytorium).</li>
+<li><strong>Efekt Spirografu:</strong> Zamiast czyścić ekran (<code>clearRect</code>) co klatkę, zamaluj go półprzezroczystym kolorem (np. biały z alpha 0.1). Sprawi to, że sekundnik będzie zostawiał za sobą zanikający ślad (trail).</li>
+</ol>
+    </div>
+</body>
+</html>
